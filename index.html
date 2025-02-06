@@ -3,39 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختيار المتحدث</title>
+    <title>هل أنت المتحدث؟</title>
     <style>
         body { 
             text-align: center; 
             font-size: 24px; 
             margin-top: 50px; 
             font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
         }
+
         .result { 
             font-size: 32px; 
             font-weight: bold;
             margin-top: 20px;
+            animation: fadeIn 1s ease-in-out;
         }
+
+        .winner {
+            animation: bounce 1s infinite;
+            color: green;
+        }
+
+        .loser {
+            animation: shake 0.5s ease-out infinite;
+            color: red;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+
+        .winner-image {
+            width: 100px;
+            height: 100px;
+            margin-top: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .loser-image {
+            width: 100px;
+            height: 100px;
+            margin-top: 20px;
+            animation: shake 1s ease-out infinite;
+        }
+
     </style>
 </head>
 <body>
-    <h2>امسح الكود لمعرفة دورك!</h2>
+    <h2>هل أنت المتحدث؟ !</h2>
     <h1 class="result" id="result"></h1>
+    <img id="image" src="" class="winner-image" alt="" style="display:none">
 
     <script>
-        let min = 1;  // الحد الأدنى للرقم العشوائي
-        let max = 40; // الحد الأقصى للرقم العشوائي
+        let min = 1;  
+        let max = 40; 
 
-        let randomNumber = Math.floor(Math.random() * (max - min + 1)) + min; // توليد رقم بين 1 و 40
-        let winnerNumber = 5;  // الرقم الفائز
+        let winnerNumber = 5;
 
-        if (randomNumber === winnerNumber) {
-            document.getElementById("result").innerText = "🎉 أنت المتحدث الآن! 🎤";
-            document.getElementById("result").style.color = "green";
-        } else {
-            document.getElementById("result").innerText = "❌ حظًا أوفر! انتظر دورك.";
-            document.getElementById("result").style.color = "red";
+        function chooseWinner() {
+            let randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+
+            if (randomNumber === winnerNumber) {
+                document.getElementById("result").innerText = "🎉 أنت المتحدث الآن! 🎤";
+                document.getElementById("result").className = "result winner";
+                document.getElementById("image").src = "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif";
+                document.getElementById("image").style.display = "block";
+                document.getElementById("image").className = "winner-image";
+            } else {
+                document.getElementById("result").innerText = "❌ حظًا أوفر! انتظر دورك.";
+                document.getElementById("result").className = "result loser";
+                document.getElementById("image").src = "https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif";
+                document.getElementById("image").style.display = "block";
+                document.getElementById("image").className = "loser-image";
+            }
         }
+
+        setInterval(chooseWinner, 120000);
+
+        chooseWinner();
     </script>
 </body>
 </html>
