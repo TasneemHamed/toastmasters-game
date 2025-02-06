@@ -7,39 +7,63 @@
     <style>
         body { 
             text-align: center; 
-            font-size: 24px; 
-            margin-top: 50px; 
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            padding: 20px;
+            font-size: 20px; 
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            padding: 40px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #2c3e50;
         }
 
         .result { 
-            font-size: 32px; 
+            font-size: 24px; 
             font-weight: bold;
             margin-top: 20px;
-            animation: fadeIn 1s ease-in-out;
+            padding: 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease-in-out;
         }
 
         .winner {
-            animation: bounce 1s infinite;
-            color: green;
+            background-color: #2ecc71;
+            color: white;
+            animation: fadeIn 1s ease-in-out;
         }
 
         .loser {
+            background-color: #e74c3c;
+            color: white;
             animation: shake 0.5s ease-out infinite;
-            color: red;
+        }
+
+        .image-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .winner-image, .loser-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 2s ease-in-out;
         }
 
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
-        }
-
-        @keyframes bounce {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0); }
         }
 
         @keyframes shake {
@@ -49,32 +73,18 @@
             75% { transform: translateX(-10px); }
             100% { transform: translateX(0); }
         }
-
-        .winner-image {
-            width: 100px;
-            height: 100px;
-            margin-top: 20px;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        .loser-image {
-            width: 100px;
-            height: 100px;
-            margin-top: 20px;
-            animation: shake 1s ease-out infinite;
-        }
-
     </style>
 </head>
 <body>
     <h2>هل أنت المتحدث؟ !</h2>
     <h1 class="result" id="result"></h1>
-    <img id="image" src="" class="winner-image" alt="" style="display:none">
+    <div class="image-container">
+        <img id="image" src="" class="winner-image" alt="" style="display:none">
+    </div>
 
     <script>
         let min = 1;  
         let max = 40; 
-
         let winnerNumber = 5;
 
         function chooseWinner() {
