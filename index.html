@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختيار المتحدث</title>
+    <style>
+        body { 
+            text-align: center; 
+            font-size: 24px; 
+            margin-top: 50px; 
+            font-family: Arial, sans-serif;
+        }
+        .result { 
+            font-size: 32px; 
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>امسح الكود لمعرفة دورك!</h2>
+    <h1 class="result" id="result"></h1>
+
+    <script>
+        let min = 1;  // الحد الأدنى للرقم العشوائي
+        let max = 40; // الحد الأقصى للرقم العشوائي
+
+        let randomNumber = Math.floor(Math.random() * (max - min + 1)) + min; // توليد رقم بين 1 و 40
+        let winnerNumber = 5;  // الرقم الفائز
+
+        if (randomNumber === winnerNumber) {
+            document.getElementById("result").innerText = "🎉 أنت المتحدث الآن! 🎤";
+            document.getElementById("result").style.color = "green";
+        } else {
+            document.getElementById("result").innerText = "❌ حظًا أوفر! انتظر دورك.";
+            document.getElementById("result").style.color = "red";
+        }
+    </script>
+</body>
+</html>
