@@ -87,16 +87,15 @@
         let max = 5; 
         let winnerNumber = 5;
         let lastNumber = null;
+        let hasWinner = false;
 
         function chooseWinner() {
             let randomNumber;
-            do {
-                randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-            } while (randomNumber === lastNumber);
-            
-            lastNumber = randomNumber;
+            randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 
+            // إذا كانت القيمة العشوائية هي الرقم 5
             if (randomNumber === winnerNumber) {
+                hasWinner = true;
                 document.getElementById("result").innerText = "🎉 أنت المتحدث الآن! 🎤";
                 document.getElementById("result").className = "result winner";
                 document.getElementById("image").src = "https://media.tenor.com/YskAEp20hh4AAAAj/decide-decision.gif";
@@ -111,8 +110,21 @@
             }
         }
 
-        setInterval(chooseWinner, 120000);
-        chooseWinner();
+        // التحقق بعد 30 ثانية
+        setTimeout(function() {
+            if (!hasWinner) {
+                // إذا لم يتم تحديد الفائز خلال 30 ثانية، نضع الرقم 5 كالفائز
+                hasWinner = true;
+                document.getElementById("result").innerText = "🎉 أنت المتحدث الآن! 🎤";
+                document.getElementById("result").className = "result winner";
+                document.getElementById("image").src = "https://media.tenor.com/YskAEp20hh4AAAAj/decide-decision.gif";
+                document.getElementById("image").style.display = "block";
+                document.getElementById("image").className = "winner-image";
+            }
+        }, 30000); // 30 ثانية
+
+        setInterval(chooseWinner, 120000); // التحقق كل دقيقتين
+        chooseWinner(); // أول تحقق عند تحميل الصفحة
     </script>
 </body>
 </html>
