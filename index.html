@@ -3,144 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>هل أنت المتحدث؟</title>
+    <title>آفاق توستماستر ترحب بكم</title>
     <style>
         body { 
             text-align: center; 
-            font-size: 20px; 
+            font-size: 22px;  
             font-family: 'Arial', sans-serif;
-            background-color: #f0f4f8;
+            background-color: #FFFFF;
             padding: 40px;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             flex-direction: column;
         }
 
-        h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: #2c3e50;
-        }
-
-        .result { 
-            font-size: 24px; 
+        .header {
+            font-size: 36px;
             font-weight: bold;
-            margin-top: 20px;
-            padding: 20px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            font-size: 24px;
+            color: #003C8F; 
+            margin-bottom: 40px;
+        }
+
+        .number-container {
+            display: inline-block;
+            background-color: #e74c3c; 
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            padding: 10px 20px;
             border-radius: 10px;
-            transition: all 0.3s ease-in-out;
+            margin-top: 20px;
         }
 
-        .winner {
-            background-color: #2ecc71;
-            color: white;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        .loser {
-            background-color: #e74c3c;
-            color: white;
-            animation: shake 0.5s ease-out infinite;
-        }
-
-        .image-container {
+        .gif-container {
             margin-top: 30px;
-            display: flex;
-            justify-content: center;
         }
 
-        .winner-image, .loser-image {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 3px solid #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 2s ease-in-out;
+        .footer {
+            margin-top: 40px;
+            text-align: center;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .footer-image {
+            width: 80%;
+            max-width: 400px;
+            height: auto;
+        }
+
+        .highlight-text {
+            display: inline-block;
+            position: relative;
+            font-size: 30px;
+            font-weight: bold;
+            color: #f39c12;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .highlight-text:hover {
+            color: #e74c3c;
+            transform: scale(1.1) rotate(-5deg);
         }
 
         @keyframes shake {
             0% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            50% { transform: translateX(10px); }
-            75% { transform: translateX(-10px); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
             100% { transform: translateX(0); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .flash {
+            animation: blink 1s infinite;
+            color: #f39c12;
         }
     </style>
 </head>
 <body>
-    <h2>هل أنت المتحدث؟ !</h2>
-    <h1 class="result" id="result"></h1>
-    <div class="image-container">
-        <img id="image" src="" class="winner-image" alt="" style="display:none">
+    <img class="logo" src="https://scontent.fjrs4-1.fna.fbcdn.net/v/t39.30808-6/469506945_122112362444621786_3678146010942944737_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=2VL-Jx3Ivx0Q7kNvgH6jpJQ&_nc_oc=AdggOKCbg-7uy6jXdROig8Or10KQu_Qn-oiPLP-FBWKJ1nYsyjuLUF8BDSaWw-eTdNY&_nc_zt=23&_nc_ht=scontent.fjrs4-1.fna&_nc_gid=AjFjeB8t_ztyHjRIVqpywQ_&oh=00_AYBseq0K63Nz5NCeIyUTjhyjO7WSuyDaE46FoLM8aDbpGQ&oe=67AD225D" alt="شعار آفاق توستماستر">
+    
+    <div class="header">آفاق توستماستر ترحب بكم</div>
+    <div class="message" id="message"></div>
+    
+    <div class="number-container flash" id="roleNumber"></div>
+
+    <div class="gif-container">
+        <img id="image" src="https://media3.giphy.com/media/KZIGPBg5STjhf9MsrY/200w.gif?cid=6c09b9527tb535vhu7mvosz9te95ijyfduz9mdsyuuly0yj1&ep=v1_gifs_search&rid=200w.gif&ct=g" alt="صورة متحركة">
     </div>
 
     <script>
-        let min = 1;  
-        let max = 5; 
-        let winnerNumber = 5;
-        let lastNumber = null;
-        let hasWinner = false;
-        let forcedWinner = false;
-        let lastForceTime = null;
+        const messages = [
+    "التطور بين الأجيال: قفزة نحو المستقبل أم تغيير بلا معنى؟",
+    "حظا أوفر بالتوفيق في الاجتماع القادم.",
+    "الإنترنت والتكنولوجيا: من رفاهية الماضي إلى ضرورة الحاضر.",
+    "حظا أوفر بالتوفيق في الاجتماع القادم.",
+    "ابتكارات اليوم، أساسيات الغد: كيف يتحول الترف إلى حاجة يومية؟",
+    "حظا أوفر بالتوفيق في الاجتماع القادم.",
+    "ثورة العمل والتكنولوجيا: هل نحن أمام مستقبل بلا وظائف تقليدية؟",
+    "حظا أوفر بالتوفيق في الاجتماع القادم.",
+    "بين الوهم والواقع: هل تجعلنا التكنولوجيا نعيش حياة أفضل؟",
+    "حظا أوفر بالتوفيق في الاجتماع القادم.",
+    "الراحة في العصر الحديث: تطور طبيعي أم بوابة للكسل؟",
+    "حظا أوفر بالتوفيق في الاجتماع القادم.",
+    "التطور: ضرورة حتمية أم خيار شخصي؟",
+    "حظا أوفر بالتوفيق في الاجتماع القادم.",
+    "الأفكار والمعتقدات عبر الزمن: هل تتغير أم تبقى ثابتة؟",
+    "حظا أوفر بالتوفيق في الاجتماع القادم.",
+    "الطب والتكنولوجيا: هل نعيش أطول بفضل التقدم العلمي؟",
+    "حظا أوفر بالتوفيق في الاجتماع القادم.",
+    "التواصل في العصر الرقمي: تقارب افتراضي أم عزلة اجتماعية؟",
+    "حظا أوفر بالتوفيق في الاجتماع القادم.",
+    "التعليم عبر الأجيال: من الألواح الخشبية إلى الذكاء الاصطناعي.",
+    "حظا أوفر بالتوفيق في الاجتماع القادم.",
+    "القيم والعادات في مهب التكنولوجيا: تهديد أم تطور طبيعي؟",
+    "حظا أوفر بالتوفيق في الاجتماع القادم.",
+    "التطور بلا ضغط: كيف نجعله عادة يومية؟",
+    "حظا أوفر بالتوفيق في الاجتماع القادم.",
+    "توقف عن الركض: هل نحتاج هدنة من التكنولوجيا لإعادة التواصل؟",
+    "حظا أوفر بالتوفيق في الاجتماع القادم.",
+    "النجاح بين الأمس واليوم: هل أصبح أصعب أم أسهل؟",
+    "التطور بين الأمس واليوم: هل يختلف؟",
+    "هل نحن في عصر التغيير الكبير؟",
+    "هل يمكن لتكنولوجيا الذكاء الاصطناعي أن تغير مستقبلنا؟",
+    "كيف توازن بين العمل والتكنولوجيا؟",
+    "هل التحول الرقمي ضرورة أم رفاهية؟",
+    "مستقبل التعليم: هل ستحل التكنولوجيا محل المعلمين؟",
+    "هل يمكن أن تكون التكنولوجيا مصدر إلهام بدلاً من تشتيت؟",
+    "هل ستظل العادات الاجتماعية قائمة في العصر الرقمي؟",
+    "هل الإنترنت قوة للخير أم للشر؟"
+];
 
-        // دالة لاختيار الفائز
-        function chooseWinner() {
-            let randomNumber;
+        let number = localStorage.getItem("number");
 
-            // إذا كان بعد الـ 30 ثانية الأولى وتم فرض الرقم 5
-            if (forcedWinner) {
-                randomNumber = 5; // فرض الرقم 5 كالفائز
-            } else {
-                randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-            }
-
-            // إذا كانت القيمة العشوائية هي الرقم 5
-            if (randomNumber === winnerNumber) {
-                hasWinner = true;
-                document.getElementById("result").innerText = "🎉 أنت المتحدث الآن! 🎤";
-                document.getElementById("result").className = "result winner";
-                document.getElementById("image").src = "https://media.tenor.com/YskAEp20hh4AAAAj/decide-decision.gif";
-                document.getElementById("image").style.display = "block";
-                document.getElementById("image").className = "winner-image";
-            } else {
-                document.getElementById("result").innerText = "❌ حظًا أوفر! انتظر دورك.";
-                document.getElementById("result").className = "result loser";
-                document.getElementById("image").src = "https://media.tenor.com/YskAEp20hh4AAAAj/decide-decision.gif";
-                document.getElementById("image").style.display = "block";
-                document.getElementById("image").className = "loser-image";
-            }
-
-            lastNumber = randomNumber;
+        if (!number) {
+            number = 1;
+        } else {
+            number = (parseInt(number) + 1) > 39 ? 1 : parseInt(number) + 1;
         }
 
-        // التحقق بعد 30 ثانية
-        setTimeout(function() {
-            if (!hasWinner) {
-                // إذا لم يتم تحديد الفائز خلال 30 ثانية، نضع الرقم 5 كالفائز
-                forcedWinner = true;
-                lastForceTime = Date.now(); // تخزين الوقت الذي تم فيه فرض الرقم 5
-                chooseWinner(); // اجبر على اختيار الرقم 5
-            }
-        }, 30000); // 30 ثانية
+        localStorage.setItem("number", number);
 
-        // التحقق كل دقيقتين
-        setInterval(function() {
-            // إذا كانت قد مرت دقيقتين منذ فرض الرقم 5، إعادة السماح لاختيار رقم عشوائي
-            if (forcedWinner && (Date.now() - lastForceTime >= 120000)) {
-                forcedWinner = false;
-            }
-            chooseWinner();
-        }, 120000); // 2 دقائق
+        document.getElementById("message").innerHTML = "اهلا بك  "  + ": " + messages[number - 1];
+        document.getElementById("roleNumber").innerHTML = "دورك هو رقم " + number;
 
-        chooseWinner(); // أول تحقق عند تحميل الصفحة
+        if (number === 24) {
+            document.getElementById("roleNumber").classList.add("shake");
+        }
+
+        document.getElementById("roleNumber").classList.add("highlight-text");
     </script>
 </body>
 </html>
