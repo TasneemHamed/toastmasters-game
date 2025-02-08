@@ -89,10 +89,12 @@
         let lastNumber = null;
         let hasWinner = false;
         let forcedWinner = false;
+        let lastForceTime = null;
 
         // دالة لاختيار الفائز
         function chooseWinner() {
             let randomNumber;
+
             // إذا كان بعد الـ 30 ثانية الأولى وتم فرض الرقم 5
             if (forcedWinner) {
                 randomNumber = 5; // فرض الرقم 5 كالفائز
@@ -115,6 +117,8 @@
                 document.getElementById("image").style.display = "block";
                 document.getElementById("image").className = "loser-image";
             }
+
+            lastNumber = randomNumber;
         }
 
         // التحقق بعد 30 ثانية
@@ -122,11 +126,20 @@
             if (!hasWinner) {
                 // إذا لم يتم تحديد الفائز خلال 30 ثانية، نضع الرقم 5 كالفائز
                 forcedWinner = true;
+                lastForceTime = Date.now(); // تخزين الوقت الذي تم فيه فرض الرقم 5
                 chooseWinner(); // اجبر على اختيار الرقم 5
             }
         }, 30000); // 30 ثانية
 
-        setInterval(chooseWinner, 120000); // التحقق كل دقيقتين
+        // التحقق كل دقيقتين
+        setInterval(function() {
+            // إذا كانت قد مرت دقيقتين منذ فرض الرقم 5، إعادة السماح لاختيار رقم عشوائي
+            if (forcedWinner && (Date.now() - lastForceTime >= 120000)) {
+                forcedWinner = false;
+            }
+            chooseWinner();
+        }, 120000); // 2 دقائق
+
         chooseWinner(); // أول تحقق عند تحميل الصفحة
     </script>
 </body>
