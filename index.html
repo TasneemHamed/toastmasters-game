@@ -88,10 +88,17 @@
         let winnerNumber = 5;
         let lastNumber = null;
         let hasWinner = false;
+        let forcedWinner = false;
 
+        // دالة لاختيار الفائز
         function chooseWinner() {
             let randomNumber;
-            randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+            // إذا كان بعد الـ 30 ثانية الأولى وتم فرض الرقم 5
+            if (forcedWinner) {
+                randomNumber = 5; // فرض الرقم 5 كالفائز
+            } else {
+                randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+            }
 
             // إذا كانت القيمة العشوائية هي الرقم 5
             if (randomNumber === winnerNumber) {
@@ -114,12 +121,8 @@
         setTimeout(function() {
             if (!hasWinner) {
                 // إذا لم يتم تحديد الفائز خلال 30 ثانية، نضع الرقم 5 كالفائز
-                hasWinner = true;
-                document.getElementById("result").innerText = "🎉 أنت المتحدث الآن! 🎤";
-                document.getElementById("result").className = "result winner";
-                document.getElementById("image").src = "https://media.tenor.com/YskAEp20hh4AAAAj/decide-decision.gif";
-                document.getElementById("image").style.display = "block";
-                document.getElementById("image").className = "winner-image";
+                forcedWinner = true;
+                chooseWinner(); // اجبر على اختيار الرقم 5
             }
         }, 30000); // 30 ثانية
 
